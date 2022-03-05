@@ -1,4 +1,7 @@
 import React,{useState} from "react";
+import ToDoItem from "./TodoItem";
+import Heading from "./Heading";
+import Input from "./Input";
 
 function App() {
 
@@ -15,21 +18,30 @@ function App() {
       })
       setItem("")
     }
+    function deleItem(id){
+      isItemClicked((prevItem)=>{
+        return prevItem.filter((item, index)=>{
+          return index !== id
+        })
+      })
+    }
   return (
     <div className="container">
-      <div className="heading">
-        <h1>To-Do List</h1>
-      </div>
-      <div className="form">
-        <input onChange={changeHandler} type="text" value={item}/>
-        <button onClick={addItem}>
-          <span>Add</span>
-        </button>
-      </div>
+        <Heading></Heading>
+      <Input
+        eventChange={changeHandler}
+        value={item}
+        eventClick={addItem}
+      ></Input>
       <div>
         <ul>
-          {unClickedItem.map((item)=>{
-            return <li>{item}</li>
+          {unClickedItem.map((toDoItem, index)=>{ 
+            return <ToDoItem
+              key={index}
+              id={index}
+              text={toDoItem}
+              onChecked={deleItem}
+            />
           })}
         </ul>
       </div>
@@ -38,3 +50,4 @@ function App() {
 }
 
 export default App;
+export {useState};
